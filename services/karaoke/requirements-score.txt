@@ -1,0 +1,14 @@
+# Minimal pinned direct runtime dependencies for the score-only API.
+fastapi==0.162.0
+starlette==1.7.0
+pydantic==2.14.1
+uvicorn==0.54.0
+python-multipart==0.0.32
+librosa==0.11.0
+soundfile==0.13.1
+numpy==2.2.6
+scipy==1.15.3
+psutil==7.0.0
+resampy==0.4.3
+packaging==25.0
+six==1.17.0

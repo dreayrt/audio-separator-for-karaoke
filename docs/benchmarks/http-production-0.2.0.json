@@ -1,0 +1,127 @@
+{
+  "info": {
+    "service_version": "0.2.0",
+    "environment": "production",
+    "profile": "karaoke-v1",
+    "model_filename": "mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956.ckpt",
+    "model_version": "1de20d459332fe8869aeb01327a31df0032262706e1365114e852dc271779813",
+    "config_version": "b89ece526e40bc7eec9d99aa16ecf35b149fb06dd18457802fba1caeea536c58",
+    "device": "cpu",
+    "device_name": "CPU",
+    "gpu_memory_fraction": null,
+    "cpu_threads": 2,
+    "parameters": {
+      "segment_size": 128,
+      "overlap": 2,
+      "chunk_seconds": 30,
+      "batch_size": 1,
+      "sample_rate": 44100,
+      "device": "cpu",
+      "precision": "float32"
+    },
+    "extractor_version": "pyin-v1",
+    "scoring_version": "pitch-rhythm-v1-experimental",
+    "memory_policy": {
+      "host_memory_bytes": 16625385472,
+      "hard_limit_bytes": 5236588544,
+      "ceiling_percent": 35,
+      "effective_percent": 31.498
+    },
+    "limits": {
+      "max_request_bytes": 134217728,
+      "max_reference_bytes": 4194304,
+      "max_duration_seconds": 600,
+      "audio_concurrency": 1
+    }
+  },
+  "checks": [
+    "ready",
+    "authentication",
+    "cpu",
+    "hard_memory_limit",
+    "streamed_zip",
+    "stem_checksums",
+    "concurrency_rejection",
+    "health_during_inference",
+    "reference_api",
+    "score_api",
+    "same_audio_sanity",
+    "silence_not_rewarded"
+  ],
+  "separation_seconds": 193.429,
+  "separation": {
+    "request_id": "4b03425ba0b3466fac38915c6a944fa0",
+    "profile": "karaoke-v1",
+    "model_filename": "mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956.ckpt",
+    "model_version": "1de20d459332fe8869aeb01327a31df0032262706e1365114e852dc271779813",
+    "config_version": "b89ece526e40bc7eec9d99aa16ecf35b149fb06dd18457802fba1caeea536c58",
+    "device": "cpu",
+    "device_name": "CPU",
+    "gpu_memory_fraction": null,
+    "cpu_threads": 2,
+    "parameters": {
+      "segment_size": 128,
+      "overlap": 2,
+      "chunk_seconds": 30,
+      "batch_size": 1,
+      "sample_rate": 44100,
+      "device": "cpu",
+      "precision": "float32"
+    },
+    "source_hash": "425443940925ffe69be19fbd5a5c9dd7da3e6b84bfa2c9675a542c26130df16b",
+    "duration_seconds": 20.006371882086167,
+    "sample_rate": 44100,
+    "files": {
+      "instrumental": "instrumental.wav",
+      "vocals": "vocals.wav"
+    },
+    "file_hashes": {
+      "instrumental": "ef0895ea1df20496b6c1f510e5ec4d7ca4eec82bc162bfd003ec4147dc749244",
+      "vocals": "043fc3c422b86d0c3f452a0650a884a87afc718b2af8c7985476649089532067"
+    },
+    "warnings": [
+      "Vocals are estimated; validate the reference before scoring a song."
+    ]
+  },
+  "reference_seconds": 15.371,
+  "score_seconds": 4.592,
+  "self_comparison": {
+    "request_id": "7b6f82032e064fd1bc93c1c6bdf480b7",
+    "status": "completed",
+    "score": {
+      "overall": 100.0,
+      "pitch": 100.0,
+      "rhythm": 100.0,
+      "coverage": 100.0
+    },
+    "quality": {
+      "status": "sufficient",
+      "warnings": [
+        "Experimental score; not a validated assessment of singing talent."
+      ],
+      "applied_global_octave_shift_semitones": 0
+    },
+    "scoring_version": "pitch-rhythm-v1-experimental",
+    "reference_version": "57c277f75313243299dd767e5bbb32c6ef615376dea83e3563035e1a38b929a4"
+  },
+  "silence_comparison": {
+    "request_id": "309e88b3af5d4d348f5cc030e175f135",
+    "status": "completed",
+    "score": {
+      "overall": 0.0,
+      "pitch": 0.0,
+      "rhythm": 0.0,
+      "coverage": 0.0
+    },
+    "quality": {
+      "status": "sufficient",
+      "warnings": [
+        "Experimental score; not a validated assessment of singing talent.",
+        "No reliable singing detected; completion score is zero."
+      ],
+      "applied_global_octave_shift_semitones": 0
+    },
+    "scoring_version": "pitch-rhythm-v1-experimental",
+    "reference_version": "57c277f75313243299dd767e5bbb32c6ef615376dea83e3563035e1a38b929a4"
+  }
+}

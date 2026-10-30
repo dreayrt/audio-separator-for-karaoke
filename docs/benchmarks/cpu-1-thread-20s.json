@@ -1,0 +1,34 @@
+{
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.36",
+  "machine": "x86_64",
+  "cpu_threads": 1,
+  "resource_policy": {
+    "host_memory_bytes": 16625385472,
+    "hard_limit_bytes": 4487905280,
+    "ceiling_percent": 30,
+    "effective_percent": 26.994
+  },
+  "input": "input.flac",
+  "status": "succeeded",
+  "load_seconds": 6.764,
+  "processing_seconds": 220.075,
+  "audio_duration_seconds": 20.006371882086167,
+  "model": {
+    "profile": "karaoke-v1",
+    "model_filename": "mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956.ckpt",
+    "model_version": "1de20d459332fe8869aeb01327a31df0032262706e1365114e852dc271779813",
+    "config_version": "e8e1a111e1f83cce711c09473b6b9dd8dcac287c73f4d5c65a5f1a9977bc5654",
+    "device": "cpu",
+    "cpu_threads": 1,
+    "parameters": {
+      "segment_size": 128,
+      "overlap": 2,
+      "chunk_seconds": 30,
+      "batch_size": 1,
+      "sample_rate": 44100
+    }
+  },
+  "real_time_factor": 11.0,
+  "peak_process_tree_rss_bytes": 2270724096,
+  "cgroup_peak_bytes": 2127622144
+}

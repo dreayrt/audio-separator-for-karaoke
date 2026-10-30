@@ -1,0 +1,63 @@
+# syntax=docker/dockerfile:1
+# Build the local preparation CLI and score API as separate runtime targets.
+ARG TORCH_INDEX_URL=https://download.pytorch.org/whl/cpu
+
+FROM --platform=$BUILDPLATFORM python:3.11-slim-bookworm AS model-assets
+WORKDIR /build
+RUN pip install --no-cache-dir requests==2.32.4
+COPY services/__init__.py services/__init__.py
+COPY services/karaoke/__init__.py services/karaoke/__init__.py
+COPY services/karaoke/assets.py services/karaoke/assets.py
+COPY services/karaoke/tools/__init__.py services/karaoke/tools/__init__.py
+COPY services/karaoke/tools/prepare_model.py services/karaoke/tools/prepare_model.py
+RUN python -m services.karaoke.tools.prepare_model --directory /models
+
+FROM python:3.11-slim-bookworm AS preprocessor
+WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg libsndfile1 tini \
+    && rm -rf /var/lib/apt/lists/*
+ARG TORCH_INDEX_URL
+RUN pip install --no-cache-dir torch==2.8.0 --index-url ${TORCH_INDEX_URL}
+COPY services/karaoke/requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt poetry-core==2.1.3
+COPY pyproject.toml README.md ./
+COPY audio_separator/ audio_separator/
+RUN pip install --no-cache-dir --no-deps --no-build-isolation . \
+    && python -c "from audio_separator.separator import Separator; from audio_separator.separator.architectures.mdxc_separator import MDXCSeparator"
+RUN groupadd --gid 10001 karaoke && useradd --uid 10001 --gid 10001 --no-create-home karaoke \
+    && mkdir -p /tmp/karaoke && chown 10001:10001 /tmp/karaoke
+COPY services/ services/
+COPY --from=model-assets --chown=0:0 /models/ /opt/models/
+RUN python -c "from services.karaoke.tools.prepare_song import main; from services.karaoke.engine import SeparationEngine"
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 \
+    AI_MODEL_DIR=/opt/models AI_TEMP_DIR=/tmp/karaoke PYTHONPATH=/app \
+    NUMBA_CACHE_DIR=/tmp/karaoke/numba NVIDIA_DRIVER_CAPABILITIES=compute,utility
+USER 10001:10001
+ENTRYPOINT ["/usr/bin/tini", "--", "python", "-m", "services.karaoke.tools.prepare_song"]
+CMD ["--help"]
+
+# Reuse the verified CUDA/model bundle; update code without downloading model weights again.
+FROM dreayrt/audio_separator_for_karaoke:0.3.0-prep-gpu@sha256:34fa3f180a9a66d825395708d807193c980493f85760254ab8a1f0d37a3901e3 AS preprocessor-update
+COPY audio_separator/ /app/audio_separator/
+COPY services/ /app/services/
+
+FROM python:3.11-slim-bookworm AS scoring-api
+WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg libsndfile1 tini \
+    && rm -rf /var/lib/apt/lists/*
+COPY services/karaoke/requirements-score.txt /tmp/requirements-score.txt
+RUN pip install --no-cache-dir -r /tmp/requirements-score.txt
+RUN groupadd --gid 10001 karaoke && useradd --uid 10001 --gid 10001 --no-create-home karaoke \
+    && mkdir -p /tmp/karaoke && chown 10001:10001 /tmp/karaoke
+COPY services/ services/
+RUN python -c "from services.karaoke.api import create_app; from services.karaoke.scoring import score_recording"
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 \
+    AI_TEMP_DIR=/tmp/karaoke AI_ENV=production AI_DEVICE=cpu \
+    OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+    NUMBA_NUM_THREADS=1 NUMBA_CACHE_DIR=/tmp/karaoke/numba PYTHONPATH=/app
+USER 10001:10001
+EXPOSE 8000
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=3)"
+ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["python", "-m", "uvicorn", "services.karaoke.api:create_app", "--factory", "--host", "0.0.0.0", "--port", "8000", "--workers", "1", "--timeout-graceful-shutdown", "600"]

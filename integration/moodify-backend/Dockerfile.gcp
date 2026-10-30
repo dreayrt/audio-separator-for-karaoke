@@ -1,0 +1,6 @@
+ARG BASE_IMAGE=moodify-backend-karaoke-base:rollback
+FROM ${BASE_IMAGE}
+
+# The base is the exact backend image already running on the GCP VM.
+# This layer replaces only its Spring Boot archive with an additive karaoke overlay.
+COPY --chown=0:0 backend-patched.jar /app/app.jar

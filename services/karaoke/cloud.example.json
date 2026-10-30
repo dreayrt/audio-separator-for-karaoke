@@ -1,0 +1,8 @@
+{
+  "sshTarget": "your-user@your-server",
+  "sshKey": "C:/Users/your-user/.ssh/google_compute_engine.ppk",
+  "hostFingerprint": "SHA256:replace-with-verified-host-fingerprint",
+  "knownHosts": "artifacts/karaoke/cloud_known_hosts",
+  "localRoot": "artifacts/karaoke/library",
+  "prepareImage": "dreayrt/audio_separator_for_karaoke:0.4.0-prep-gpu"
+}

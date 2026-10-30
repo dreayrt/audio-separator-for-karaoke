@@ -1,0 +1,25 @@
+# Local preparation dependencies (audio separation and pitch-reference creation).
+# The score-only FastAPI image uses requirements-score.txt instead.
+fastapi==0.162.0
+starlette==1.7.0
+pydantic==2.14.1
+uvicorn==0.54.0
+python-multipart==0.0.32
+httpx==0.28.1
+librosa==0.11.0
+soundfile==0.13.1
+numpy==2.2.6
+scipy==1.15.3
+onnxruntime==1.22.1
+psutil==7.0.0
+requests==2.32.4
+PyYAML==6.0.2
+pydub==0.25.1
+beartype==0.18.5
+einops==0.8.1
+rotary-embedding-torch==0.6.5
+ml-collections==1.1.0
+resampy==0.4.3
+tqdm==4.67.1
+packaging==25.0
+six==1.17.0

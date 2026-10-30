@@ -1,0 +1,127 @@
+{
+  "info": {
+    "service_version": "0.2.0",
+    "environment": "dev",
+    "profile": "karaoke-v1",
+    "model_filename": "mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956.ckpt",
+    "model_version": "1de20d459332fe8869aeb01327a31df0032262706e1365114e852dc271779813",
+    "config_version": "c2b879edca7e513a20fcc1ce73cc873066b0c63945a4bd7a02f5ac276221521a",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "gpu_memory_fraction": 0.85,
+    "cpu_threads": 2,
+    "parameters": {
+      "segment_size": 128,
+      "overlap": 2,
+      "chunk_seconds": 30,
+      "batch_size": 1,
+      "sample_rate": 44100,
+      "device": "cuda",
+      "precision": "float32"
+    },
+    "extractor_version": "pyin-v1",
+    "scoring_version": "pitch-rhythm-v1-experimental",
+    "memory_policy": {
+      "host_memory_bytes": 16625385472,
+      "hard_limit_bytes": 4487905280,
+      "ceiling_percent": 30,
+      "effective_percent": 26.994
+    },
+    "limits": {
+      "max_request_bytes": 134217728,
+      "max_reference_bytes": 4194304,
+      "max_duration_seconds": 600,
+      "audio_concurrency": 1
+    }
+  },
+  "checks": [
+    "ready",
+    "authentication",
+    "cuda",
+    "hard_memory_limit",
+    "streamed_zip",
+    "stem_checksums",
+    "concurrency_rejection",
+    "health_during_inference",
+    "reference_api",
+    "score_api",
+    "same_audio_sanity",
+    "silence_not_rewarded"
+  ],
+  "separation_seconds": 26.806,
+  "separation": {
+    "request_id": "0077bb90b0dc417ba2660770c9779201",
+    "profile": "karaoke-v1",
+    "model_filename": "mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956.ckpt",
+    "model_version": "1de20d459332fe8869aeb01327a31df0032262706e1365114e852dc271779813",
+    "config_version": "c2b879edca7e513a20fcc1ce73cc873066b0c63945a4bd7a02f5ac276221521a",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "gpu_memory_fraction": 0.85,
+    "cpu_threads": 2,
+    "parameters": {
+      "segment_size": 128,
+      "overlap": 2,
+      "chunk_seconds": 30,
+      "batch_size": 1,
+      "sample_rate": 44100,
+      "device": "cuda",
+      "precision": "float32"
+    },
+    "source_hash": "425443940925ffe69be19fbd5a5c9dd7da3e6b84bfa2c9675a542c26130df16b",
+    "duration_seconds": 20.006371882086167,
+    "sample_rate": 44100,
+    "files": {
+      "instrumental": "instrumental.wav",
+      "vocals": "vocals.wav"
+    },
+    "file_hashes": {
+      "instrumental": "a4c02aaa12aa4f29ba01c13c7af54ea69a053fd2989e8592b80bd5342487181b",
+      "vocals": "dc658ca29e56d4be7ed49cc3e992885c7ebe6d13ce2af194d9768f5269246d17"
+    },
+    "warnings": [
+      "Vocals are estimated; validate the reference before scoring a song."
+    ]
+  },
+  "reference_seconds": 8.295,
+  "score_seconds": 3.177,
+  "self_comparison": {
+    "request_id": "1266152868a549e28258baff823b3069",
+    "status": "completed",
+    "score": {
+      "overall": 100.0,
+      "pitch": 100.0,
+      "rhythm": 100.0,
+      "coverage": 100.0
+    },
+    "quality": {
+      "status": "sufficient",
+      "warnings": [
+        "Experimental score; not a validated assessment of singing talent."
+      ],
+      "applied_global_octave_shift_semitones": 0
+    },
+    "scoring_version": "pitch-rhythm-v1-experimental",
+    "reference_version": "527dce1e3eed010938c255204f18aeeb9daef923c6e7888f8492657db44e1a99"
+  },
+  "silence_comparison": {
+    "request_id": "7d66a4a2e6094e57acc68828ee815e9d",
+    "status": "completed",
+    "score": {
+      "overall": 0.0,
+      "pitch": 0.0,
+      "rhythm": 0.0,
+      "coverage": 0.0
+    },
+    "quality": {
+      "status": "sufficient",
+      "warnings": [
+        "Experimental score; not a validated assessment of singing talent.",
+        "No reliable singing detected; completion score is zero."
+      ],
+      "applied_global_octave_shift_semitones": 0
+    },
+    "scoring_version": "pitch-rhythm-v1-experimental",
+    "reference_version": "527dce1e3eed010938c255204f18aeeb9daef923c6e7888f8492657db44e1a99"
+  }
+}

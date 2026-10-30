@@ -1,0 +1,5 @@
+services:
+  moodify-backend:
+    image: moodify-backend-karaoke:2026-10-29-hardening
+    env_file:
+      - /opt/moodify-karaoke/karaoke.env
